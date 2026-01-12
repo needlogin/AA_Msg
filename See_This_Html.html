@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  background: #122139;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100px;
+  height: 300px;
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  margin: auto;
+  transform: scale(.7);
+}
+
+.container div {
+  position: absolute;
+}
+
+/* ---- ENHANCED GLOW AROUND ROSE ---- */
+.glow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 148, 184, 0.6);
+  box-shadow: 0 0 15px #f594b8, 0 0 30px #ff4e85, 0 0 45px rgba(255, 78, 133, 0.5);
+  left: -50px;
+  top: -50px;
+  animation: glowing 3s ease-in-out infinite;
+}
+
+
+/* Additional glow layers */
+.glow::before {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 78, 133, 0.3);
+  left: -10px;
+  top: -10px;
+  animation: glowing2 4s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.glow::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  left: 10px;
+  top: 10px;
+  animation: glowing3 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* ---- ROSE PETALS ---- */
+.rose-petals > div {
+  background: #d52d58;
+  width: 45px;
+  height: 80px;
+  position: absolute;
+  transition: all 0.5s ease-out;
+}
+
+.rose-petals > div:nth-child(1) {
+  border-radius: 15px;
+  left: 20px;
+  top: -6px;
+  background: #d52d58;
+}
+
+.rose-petals > div:nth-child(2),
+.rose-petals > div:nth-child(4),
+.rose-petals > div:nth-child(6) {
+  border-radius: 0 30px 0 30px;
+  background: #b81b43;
+  left: 0;
+  transform-origin: bottom right;
+}
+
+.rose-petals > div:nth-child(3),
+.rose-petals > div:nth-child(5),
+.rose-petals > div:nth-child(7) {
+  border-radius: 30px 0 30px 0;
+  left: 40px;
+  transform-origin: bottom left;
+}
+
+/* Rose opening animations with longer duration */
+.rose-petals > div:nth-child(2) {
+  animation: openRose2 4s ease-in-out forwards;
+  z-index: 5;
+  background: #9e183a;
+  top: 10px;
+  height: 70px;
+  animation-delay: 0.5s;
+}
+
+.rose-petals > div:nth-child(3) {
+  animation: openRose3 4s ease-in-out forwards;
+  z-index: 4;
+  background: #9e183a;
+  top: 10px;
+  height: 70px;
+  animation-delay: 0.5s;
+}
+
+.rose-petals > div:nth-child(4) {
+  animation: openRose4 4s ease-in-out forwards;
+  z-index: 3;
+  background: #b81b43;
+  top: 5px;
+  height: 75px;
+  animation-delay: 0.5s;
+}
+
+.rose-petals > div:nth-child(5) {
+  animation: openRose5 4s ease-in-out forwards;
+  z-index: 2;
+  background: #b81b43;
+  top: 5px;
+  height: 75px;
+  animation-delay: 0.5s;
+}
+
+.rose-petals > div:nth-child(6) {
+  animation: openRose6 4s ease-in-out forwards;
+  z-index: 1;
+  background: #c9204b;
+  animation-delay: 0.5s;
+}
+
+.rose-petals > div:nth-child(7) {
+  animation: openRose7 4s ease-in-out forwards;
+  z-index: 0;
+  background: #c9204b;
+  animation-delay: 0.5s;
+}
+
+/* ---- STEM + LEAVES ---- */
+.rose-leaves > div:nth-child(1) {
+  width: 6px;
+  height: 230px;
+  background: #066406;
+  top: 80px;
+  left: 40px;
+}
+
+.rose-leaves > div:nth-child(2) {
+  width: 55px;
+  height: 30px;
+  background: #338f37;
+  top: 60px;
+  left: 15px;
+  border-radius: 100px;
+}
+
+/* ---- THORNS ---- */
+.thorns > div {
+  width: 30px;
+  height: 30px;
+  background: #066406;
+  top: 100px;
+  left: 10px;
+}
+
+.thorns > div:after {
+  width: 41px;
+  height: 31px;
+  border-radius: 100%;
+  background: #122139;
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 17px;
+}
+
+.thorns > div:before {
+  width: 41px;
+  height: 31px;
+  border-radius: 100%;
+  background: #122139;
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: -11px;
+  z-index: 0;
+}
+
+.thorns > div:nth-child(2) {
+  top: 150px;
+  transform: rotate(180deg);
+  left: 45px;
+}
+
+.thorns > div:nth-child(3) {
+  top: 180px;
+}
+
+.thorns > div:nth-child(4) {
+  top: 220px;
+  transform: rotate(180deg);
+  left: 45px;
+}
+
+/* ---- ENHANCED FALLING ROSE PETALS (RED LIVES) ---- */
+.falling-petal {
+  width: 50px;
+  height: 60px;
+  background: linear-gradient(135deg, #ff3b6d, #d52d58);
+  border-radius: 30px 0 30px 0;
+  position: absolute;
+  top: 40px;
+  left: 25px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 11px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 0 10px rgba(255, 59, 109, 0.7),
+    0 0 20px rgba(255, 78, 133, 0.4),
+    inset 0 0 15px rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  animation: fallPetal 9s linear infinite;
+}
+
+.falling-petal::before {
+  content: "sorry";
+  position: absolute;
+  z-index: 11;
+  transform: rotate(-45deg);
+}
+
+/* Different colors and delays for variety - START AFTER ROSE OPENS (4s) */
+.falling-petal:nth-child(1) { 
+  background: linear-gradient(135deg, #ff3b6d, #e62e5c);
+  animation-delay: 4s; /* Start after rose opens */
+}
+.falling-petal:nth-child(2) { 
+  background: linear-gradient(135deg, #ff527f, #d52d58);
+  animation-delay: 6s; 
+}
+.falling-petal:nth-child(3) { 
+  background: linear-gradient(135deg, #e62e5c, #c9204b);
+  animation-delay: 8s; 
+}
+.falling-petal:nth-child(4) { 
+  background: linear-gradient(135deg, #ff6d96, #b81b43);
+  animation-delay: 10s; 
+}
+.falling-petal:nth-child(5) { 
+  background: linear-gradient(135deg, #ff8ab0, #a7173a);
+  animation-delay: 12s; 
+}
+.falling-petal:nth-child(6) { 
+  background: linear-gradient(135deg, #ff3b6d, #e62e5c);
+  animation-delay: 14s; 
+}
+.falling-petal:nth-child(7) { 
+  background: linear-gradient(135deg, #ff527f, #d52d58);
+  animation-delay: 16s; 
+}
+.falling-petal:nth-child(8) { 
+  background: linear-gradient(135deg, #e62e5c, #c9204b);
+  animation-delay: 18s; 
+}
+.falling-petal:nth-child(9) { 
+  background: linear-gradient(135deg, #ff6d96, #b81b43);
+  animation-delay: 20s; 
+}
+
+/* ---- KEYFRAMES ---- */
+@keyframes glowing {
+  0% { 
+    box-shadow: 0 0 10px #f594b8, 0 0 20px #ff4e85, 0 0 30px rgba(255, 78, 133, 0.5);
+    opacity: 0.8;
+  }
+  50% { 
+    box-shadow: 0 0 20px #ff4e85, 0 0 40px #ff4e85, 0 0 60px rgba(255, 78, 133, 0.7);
+    opacity: 1;
+  }
+  100% { 
+    box-shadow: 0 0 10px #f594b8, 0 0 20px #ff4e85, 0 0 30px rgba(255, 78, 133, 0.5);
+    opacity: 0.8;
+  }
+}
+
+@keyframes glowing2 {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(255, 78, 133, 0.3), 0 0 15px rgba(255, 78, 133, 0.2);
+  }
+  50% { 
+    box-shadow: 0 0 15px rgba(255, 78, 133, 0.5), 0 0 30px rgba(255, 78, 133, 0.3);
+  }
+}
+
+@keyframes glowing3 {
+  0%, 100% { 
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.2), 0 0 8px rgba(255, 255, 255, 0.1);
+  }
+  50% { 
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 16px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes fallPetal {
+  0% {
+    transform: rotate(0deg) scale(1);
+    top: 40px;
+    left: 25px;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+    transform: rotate(-5deg) scale(1.05);
+  }
+  10% {
+    transform: rotate(5deg) scale(1.1);
+  }
+  20% {
+    transform: rotate(-15deg) scale(1.1);
+    left: 15px;
+    top: 80px;
+  }
+  30% {
+    transform: rotate(15deg) scale(1.1);
+    left: 5px;
+    top: 130px;
+  }
+  40% {
+    transform: rotate(-25deg) scale(1.05);
+    left: -10px;
+    top: 180px;
+  }
+  50% {
+    transform: rotate(25deg) scale(1);
+    left: -30px;
+    top: 230px;
+    opacity: 0.9;
+  }
+  60% {
+    transform: rotate(-30deg) scale(0.95);
+    left: -50px;
+    top: 280px;
+    opacity: 0.8;
+  }
+  70% {
+    transform: rotate(30deg) scale(0.9);
+    left: -80px;
+    top: 330px;
+    opacity: 0.6;
+  }
+  80% {
+    transform: rotate(-35deg) scale(0.85);
+    left: -120px;
+    top: 380px;
+    opacity: 0.4;
+  }
+  90% {
+    transform: rotate(35deg) scale(0.8);
+    left: -160px;
+    top: 430px;
+    opacity: 0.2;
+  }
+  100% {
+    transform: rotate(-40deg) scale(0.75);
+    top: 500px; /* Increased distance */
+    left: -200px; /* Increased distance */
+    opacity: 0;
+  }
+}
+
+@keyframes openRose2 {
+  100% {
+    transform: rotate(-60deg);
+  }
+}
+
+@keyframes openRose3 {
+  100% {
+    transform: rotate(60deg);
+  }
+}
+
+@keyframes openRose4 {
+  100% {
+    transform: rotate(-30deg);
+  }
+}
+
+@keyframes openRose5 {
+  100% {
+    transform: rotate(30deg);
+  }
+}
+
+@keyframes openRose6 {
+  100% {
+    transform: rotate(-15deg);
+  }
+}
+
+@keyframes openRose7 {
+  100% {
+    transform: rotate(15deg);
+  }
+}
+
+/* ---- ENHANCED SPARKLE EFFECTS ---- */
+.sparkle {
+  position: absolute;
+  border-radius: 50%;
+  background: #ff4e85;
+  box-shadow: 0 0 15px 5px #ff4e85;
+  opacity: 0;
+  z-index: 5;
+  animation: sparkle 3s ease-in-out infinite;
+}
+
+/* Different sizes and colors of sparkles */
+.sparkle:nth-child(1) { width: 5px; height: 5px; animation-delay: 0s; left: 30px; top: 60px; background: #ff3b6d; }
+.sparkle:nth-child(2) { width: 6px; height: 6px; animation-delay: 0.2s; left: 10px; top: 150px; background: #ff527f; }
+.sparkle:nth-child(3) { width: 4px; height: 4px; animation-delay: 0.4s; left: 50px; top: 100px; background: #ff6d96; }
+.sparkle:nth-child(4) { width: 7px; height: 7px; animation-delay: 0.6s; left: -10px; top: 200px; background: #ff8ab0; }
+.sparkle:nth-child(5) { width: 5px; height: 5px; animation-delay: 0.8s; left: 60px; top: 30px; background: #ff3b6d; }
+.sparkle:nth-child(6) { width: 6px; height: 6px; animation-delay: 1s; left: 20px; top: 250px; background: #ff527f; }
+.sparkle:nth-child(7) { width: 4px; height: 4px; animation-delay: 1.2s; left: 40px; top: 180px; background: #ff6d96; }
+.sparkle:nth-child(8) { width: 7px; height: 7px; animation-delay: 1.4s; left: 0px; top: 300px; background: #ff8ab0; }
+.sparkle:nth-child(9) { width: 5px; height: 5px; animation-delay: 1.6s; left: 70px; top: 120px; background: #ff3b6d; }
+.sparkle:nth-child(10) { width: 6px; height: 6px; animation-delay: 1.8s; left: 15px; top: 350px; background: #ff527f; }
+.sparkle:nth-child(11) { width: 4px; height: 4px; animation-delay: 2s; left: 45px; top: 270px; background: #ff6d96; }
+.sparkle:nth-child(12) { width: 7px; height: 7px; animation-delay: 2.2s; left: -5px; top: 400px; background: #ff8ab0; }
+.sparkle:nth-child(13) { width: 5px; height: 5px; animation-delay: 2.4s; left: 65px; top: 220px; background: #ff3b6d; }
+.sparkle:nth-child(14) { width: 6px; height: 6px; animation-delay: 2.6s; left: 25px; top: 450px; background: #ff527f; }
+.sparkle:nth-child(15) { width: 4px; height: 4px; animation-delay: 2.8s; left: 35px; top: 320px; background: #ff6d96; }
+
+/* Additional sparkles that follow falling petals */
+.sparkle-follow {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #ff96c0;
+  box-shadow: 0 0 10px 2px #ff4e85;
+  opacity: 0;
+  z-index: 6;
+  animation: sparkleFollow 9s linear infinite;
+}
+
+/* Sparkles that follow the falling petals */
+.sparkle-follow:nth-child(16) { animation-delay: 4s; left: 25px; top: 40px; }
+.sparkle-follow:nth-child(17) { animation-delay: 6s; left: 25px; top: 40px; }
+.sparkle-follow:nth-child(18) { animation-delay: 8s; left: 25px; top: 40px; }
+.sparkle-follow:nth-child(19) { animation-delay: 10s; left: 25px; top: 40px; }
+.sparkle-follow:nth-child(20) { animation-delay: 12s; left: 25px; top: 40px; }
+
+@keyframes sparkle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.5);
+  }
+}
+
+@keyframes sparkleFollow {
+  0% { opacity: 0; transform: translate(0, 0); }
+  10% { opacity: 1; }
+  20% { transform: translate(-10px, 50px); }
+  40% { transform: translate(-30px, 150px); }
+  60% { transform: translate(-60px, 250px); opacity: 0.7; }
+  80% { transform: translate(-100px, 350px); opacity: 0.4; }
+  100% { transform: translate(-150px, 450px); opacity: 0; }
+}
+
+/* Subtle breathing animation for rose */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.rose-petals {
+  animation: breathe 5s ease-in-out infinite;
+  animation-delay: 4s; /* Start breathing after opening */
+}
+
+/* Petal shimmer effect */
+@keyframes petalShimmer {
+  0%, 100% { box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1); }
+  50% { box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3); }
+}
+
+.rose-petals > div {
+  animation: petalShimmer 4s ease-in-out infinite;
+  animation-delay: 4s;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="glow"></div>
+  
+  <div class="thorns">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  
+  <div class="rose-leaves">
+    <div></div>
+    <div></div>
+  </div>
+  
+  <div class="rose-petals">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  
+  <!-- 9 falling rose petals (red lives) with "sorry" written on them -->
+  <!-- Each falls with 2 second delay, starting after rose opens (4s) -->
+  <div class="falling-petal"></div>
+  <div class="falling-petal"></div>
+  <div class="falling-petal"></div>
+  <div class="falling-petal"></div>
+  <div class="falling-petal"></div>
+  <div class="falling-petal"></div>
+  <div class="falling-petal"></div>
+  <div class="falling-petal"></div>
+  <div class="falling-petal"></div>
+  
+  <!-- Enhanced sparkle effects (20 sparkles total) -->
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle-follow"></div>
+  <div class="sparkle-follow"></div>
+  <div class="sparkle-follow"></div>
+  <div class="sparkle-follow"></div>
+  <div class="sparkle-follow"></div>
+</div>
+
+</body>
+</html>
