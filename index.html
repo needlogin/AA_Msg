@@ -25,7 +25,6 @@ body {
   position: absolute;
 }
 
-/* ---- ENHANCED GLOW AROUND ROSE ---- */
 .glow {
   position: absolute;
   width: 200px;
@@ -38,8 +37,6 @@ body {
   animation: glowing 3s ease-in-out infinite;
 }
 
-
-/* Additional glow layers */
 .glow::before {
   content: '';
   position: absolute;
@@ -66,7 +63,6 @@ body {
   animation-delay: 1s;
 }
 
-/* ---- ROSE PETALS ---- */
 .rose-petals > div {
   background: #d52d58;
   width: 45px;
@@ -99,7 +95,6 @@ body {
   transform-origin: bottom left;
 }
 
-/* Rose opening animations with longer duration */
 .rose-petals > div:nth-child(2) {
   animation: openRose2 4s ease-in-out forwards;
   z-index: 5;
@@ -150,7 +145,6 @@ body {
   animation-delay: 0.5s;
 }
 
-/* ---- STEM + LEAVES ---- */
 .rose-leaves > div:nth-child(1) {
   width: 6px;
   height: 230px;
@@ -168,7 +162,6 @@ body {
   border-radius: 100px;
 }
 
-/* ---- THORNS ---- */
 .thorns > div {
   width: 30px;
   height: 30px;
@@ -216,7 +209,6 @@ body {
   left: 45px;
 }
 
-/* ---- ENHANCED FALLING ROSE PETALS (RED LIVES) ---- */
 .falling-petal {
   width: 50px;
   height: 60px;
@@ -243,16 +235,23 @@ body {
 }
 
 .falling-petal::before {
-  content: "sorry";
+  content: "";
   position: absolute;
   z-index: 11;
   transform: rotate(-45deg);
 }
 
-/* Different colors and delays for variety - START AFTER ROSE OPENS (4s) */
+.falling-petal.sorry::before {
+  content: "sorry";
+}
+
+.falling-petal.aayushi::before {
+  content: "Aayushi";
+}
+
 .falling-petal:nth-child(1) { 
   background: linear-gradient(135deg, #ff3b6d, #e62e5c);
-  animation-delay: 4s; /* Start after rose opens */
+  animation-delay: 4s;
 }
 .falling-petal:nth-child(2) { 
   background: linear-gradient(135deg, #ff527f, #d52d58);
@@ -271,23 +270,22 @@ body {
   animation-delay: 12s; 
 }
 .falling-petal:nth-child(6) { 
-  background: linear-gradient(135deg, #ff3b6d, #e62e5c);
+  background: linear-gradient(135deg, #4e9fff, #2d7fd5);
   animation-delay: 14s; 
 }
 .falling-petal:nth-child(7) { 
-  background: linear-gradient(135deg, #ff527f, #d52d58);
+  background: linear-gradient(135deg, #52b3ff, #2d8bd5);
   animation-delay: 16s; 
 }
 .falling-petal:nth-child(8) { 
-  background: linear-gradient(135deg, #e62e5c, #c9204b);
+  background: linear-gradient(135deg, #6dccff, #2d9fd5);
   animation-delay: 18s; 
 }
 .falling-petal:nth-child(9) { 
-  background: linear-gradient(135deg, #ff6d96, #b81b43);
+  background: linear-gradient(135deg, #8ad4ff, #2db3d5);
   animation-delay: 20s; 
 }
 
-/* ---- KEYFRAMES ---- */
 @keyframes glowing {
   0% { 
     box-shadow: 0 0 10px #f594b8, 0 0 20px #ff4e85, 0 0 30px rgba(255, 78, 133, 0.5);
@@ -382,8 +380,8 @@ body {
   }
   100% {
     transform: rotate(-40deg) scale(0.75);
-    top: 500px; /* Increased distance */
-    left: -200px; /* Increased distance */
+    top: 500px;
+    left: -200px;
     opacity: 0;
   }
 }
@@ -424,7 +422,6 @@ body {
   }
 }
 
-/* ---- ENHANCED SPARKLE EFFECTS ---- */
 .sparkle {
   position: absolute;
   border-radius: 50%;
@@ -435,7 +432,6 @@ body {
   animation: sparkle 3s ease-in-out infinite;
 }
 
-/* Different sizes and colors of sparkles */
 .sparkle:nth-child(1) { width: 5px; height: 5px; animation-delay: 0s; left: 30px; top: 60px; background: #ff3b6d; }
 .sparkle:nth-child(2) { width: 6px; height: 6px; animation-delay: 0.2s; left: 10px; top: 150px; background: #ff527f; }
 .sparkle:nth-child(3) { width: 4px; height: 4px; animation-delay: 0.4s; left: 50px; top: 100px; background: #ff6d96; }
@@ -452,7 +448,6 @@ body {
 .sparkle:nth-child(14) { width: 6px; height: 6px; animation-delay: 2.6s; left: 25px; top: 450px; background: #ff527f; }
 .sparkle:nth-child(15) { width: 4px; height: 4px; animation-delay: 2.8s; left: 35px; top: 320px; background: #ff6d96; }
 
-/* Additional sparkles that follow falling petals */
 .sparkle-follow {
   position: absolute;
   width: 3px;
@@ -465,7 +460,6 @@ body {
   animation: sparkleFollow 9s linear infinite;
 }
 
-/* Sparkles that follow the falling petals */
 .sparkle-follow:nth-child(16) { animation-delay: 4s; left: 25px; top: 40px; }
 .sparkle-follow:nth-child(17) { animation-delay: 6s; left: 25px; top: 40px; }
 .sparkle-follow:nth-child(18) { animation-delay: 8s; left: 25px; top: 40px; }
@@ -497,7 +491,6 @@ body {
   100% { transform: translate(-150px, 450px); opacity: 0; }
 }
 
-/* Subtle breathing animation for rose */
 @keyframes breathe {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.02); }
@@ -505,10 +498,9 @@ body {
 
 .rose-petals {
   animation: breathe 5s ease-in-out infinite;
-  animation-delay: 4s; /* Start breathing after opening */
+  animation-delay: 4s;
 }
 
-/* Petal shimmer effect */
 @keyframes petalShimmer {
   0%, 100% { box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1); }
   50% { box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3); }
@@ -548,19 +540,16 @@ body {
     <div></div>
   </div>
   
-  <!-- 9 falling rose petals (red lives) with "sorry" written on them -->
-  <!-- Each falls with 2 second delay, starting after rose opens (4s) -->
-  <div class="falling-petal"></div>
-  <div class="falling-petal"></div>
-  <div class="falling-petal"></div>
-  <div class="falling-petal"></div>
-  <div class="falling-petal"></div>
-  <div class="falling-petal"></div>
-  <div class="falling-petal"></div>
-  <div class="falling-petal"></div>
-  <div class="falling-petal"></div>
+  <div class="falling-petal sorry"></div>
+  <div class="falling-petal sorry"></div>
+  <div class="falling-petal sorry"></div>
+  <div class="falling-petal sorry"></div>
+  <div class="falling-petal sorry"></div>
+  <div class="falling-petal aayushi"></div>
+  <div class="falling-petal aayushi"></div>
+  <div class="falling-petal aayushi"></div>
+  <div class="falling-petal aayushi"></div>
   
-  <!-- Enhanced sparkle effects (20 sparkles total) -->
   <div class="sparkle"></div>
   <div class="sparkle"></div>
   <div class="sparkle"></div>
